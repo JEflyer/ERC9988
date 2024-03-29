@@ -5,7 +5,7 @@ import "./ERC9988.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract MySupplyChainToken is ERC9988 {
+contract KingOfFractionalisation is ERC9988 {
     using Strings for uint256;
 
     // Token URI prefix
@@ -32,12 +32,12 @@ contract MySupplyChainToken is ERC9988 {
 
     // Override the tokenURI method to fetch the metadata for a given token
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        return string(abi.encodePacked(_baseTokenURI, "/", tokenId.toString()));
+        return string(abi.encodePacked(_baseTokenURI));
     }
 
     // Implement phaseURI to fetch the metadata for a specific phase of a given token
     function phaseURI(uint256 tokenId, uint256 phase) public view override returns (string memory) {
-        return string(abi.encodePacked(_basePhaseURI, "/", tokenId.toString(), "/", phase.toString()));
+        return string(abi.encodePacked(_basePhaseURI, "/", phase.toString(), ".json"));
     }
 
     // Public function to mint new tokens; only owner can mint

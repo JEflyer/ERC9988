@@ -11,15 +11,15 @@ describe("ERC9988", function () {
   async function deployERC9988Setup() {
 
     // Contracts are deployed using the first signer/account by default
-    const [owner, account1, account2] = await ethers.getSigners();
+    const [owner, account1, account2, prizePoolWallet] = await ethers.getSigners();
 
     const mUSDCFactory = await ethers.getContractFactory("TestToken");
-    const mUSDC = await mUSDCFactory.deploy();
+    const mUSDC = await mUSDCFactory.deploy("Name","Sym");
 
     const mWMATICFactory = await ethers.getContractFactory("TestToken");
-    const mWMATIC = await mWMATICFactory.deploy();
+    const mWMATIC = await mWMATICFactory.deploy("Name","Sym");
 
-    const ERC9988Factory = await ethers.getContractFactory("MySupplyChainToken")
+    const ERC9988Factory = await ethers.getContractFactory("KingOfFractionalisation")
     const ERC9988 = await ERC9988Factory.deploy(
       "King of Fractionalisation",
       "KoF",
@@ -33,10 +33,11 @@ describe("ERC9988", function () {
     const marketplace = await marketFactory.deploy(
       ERC9988.target,
       mUSDC.target,
-      mWMATIC.target
+      mWMATIC.target, 
+      prizePoolWallet.address
     )
 
-    return { owner, account1, account2, mUSDC, mWMATIC, ERC9988, marketplace };
+    return { owner, account1, account2, prizePoolWallet, mUSDC, mWMATIC, ERC9988, marketplace };
   }
 
   async function deployFixture() {
